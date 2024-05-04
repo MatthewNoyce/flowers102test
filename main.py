@@ -128,9 +128,9 @@ def main() -> None:
         correct += (pred.argmax(1) == y).type(torch.float).sum().item()
                 
         test_loss /= num_batches    
-        correct /= 1020
+        #correct /= 1020
         #prints error and accuracy every after every epoch 
-      print(f"Test Error: \n Accuracy: {100 * correct:>0.1f}%, Avg loss: {test_loss:>5f} \n ")
+      print(f"Test Error: \n Accuracy: {100 * correct/1020:>0.1f}%, Avg loss: {test_loss:>5f} \n ")
     model.train()
 
 
