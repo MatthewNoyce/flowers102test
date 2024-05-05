@@ -142,7 +142,7 @@ def main() -> None:
   my_flowers = MyFlowerDataset(metadata, transform = flower_transform)
 
   # Splitting dataset into train, test and val
-  train_set, test_set, val_set = torch.utils.data.random_split(my_flowers, [1020, 6149, 1020]) #changed for faster training on laptop
+  train_set, test_set, val_set = torch.utils.data.random_split(my_flowers, [6149, 1020, 1020]) #changed for faster training on laptop
 
 
 
@@ -152,7 +152,7 @@ def main() -> None:
   val_loader = DataLoader(val_set, batch_size= 4, shuffle=False, num_workers=4)
 
   for epoch in range(2):  # loop over the dataset multiple times
-      check_accuracy(val_loader, model)
+      
       running_loss = 0.0
       for i, data in enumerate(train_loader, 0):
           # get the inputs; data is a list of [inputs, labels]
@@ -175,7 +175,7 @@ def main() -> None:
               print('[%d, %5d] loss: %.3f' %
                     (epoch + 1, i + 1, running_loss / 2000))
               running_loss = 0.0
-      
+      check_accuracy(val_loader, model)
 
 if __name__ == "__main__":
     main()
