@@ -24,29 +24,29 @@ class my_NN(nn.Module):
       super(my_NN,self).__init__()
     
       self.layer1 = nn.Sequential(
-         nn.Conv2d(3,16,kernel_size=3, padding=0,stride=2),
-         nn.BatchNorm2d(16),
+         nn.Conv2d(3,32,kernel_size=3, padding=0,stride=2),
+         nn.BatchNorm2d(32),
          nn.ReLU(),
          nn.MaxPool2d(2)
        )
     
       self.layer2 = nn.Sequential(
-          nn.Conv2d(16,32, kernel_size=3, padding=0, stride=2),
-          nn.BatchNorm2d(32),
+          nn.Conv2d(32,64, kernel_size=3, padding=0, stride=2),
+          nn.BatchNorm2d(64),
           nn.ReLU(),
           nn.MaxPool2d(2)
         )
     
       self.layer3 = nn.Sequential(
-          nn.Conv2d(32,64, kernel_size=3, padding=0, stride=2),
-          nn.BatchNorm2d(64),
+          nn.Conv2d(64,128, kernel_size=3, padding=0, stride=2),
+          nn.BatchNorm2d(128),
           nn.ReLU(),
           nn.MaxPool2d(2)
        )
     
     
-      self.fc1 = nn.Linear(576,512)
-      self.fc2 = nn.Linear(512,512)
+      self.fc1 = nn.Linear(1152,1024)
+      self.fc2 = nn.Linear(1024,512)
       self.fc3 = nn.Linear(512,102)
       self.relu = nn.ReLU()
     
@@ -112,8 +112,6 @@ def main() -> None:
   label_array -= 1
 
   def check_accuracy(loader, model):
-    num_corrects = 0
-    num_samples = 0
     model.eval()
     test_loss, correct = 0,0
     num_batches = len(loader)
@@ -128,9 +126,9 @@ def main() -> None:
         correct += (pred.argmax(1) == y).type(torch.float).sum().item()
                 
         test_loss /= num_batches    
-        #correct /= 1020
+        correct /= 1020
         #prints error and accuracy every after every epoch 
-      print(f"Test Error: \n Accuracy: {100 * correct/1020:>0.1f}%, Avg loss: {test_loss:>5f} \n ")
+      print(f"Test Error: \n Accuracy: {100 * correct:>0.1f}%, Avg loss: {test_loss:>5f} \n ")
     model.train()
 
 
@@ -145,7 +143,7 @@ def main() -> None:
 
   # Splitting dataset into train, test and val
   train_set, test_set, val_set = torch.utils.data.random_split(my_flowers, [1020, 6149, 1020]) #changed for faster training on laptop
-  
+
 
 
   # dataloaders
